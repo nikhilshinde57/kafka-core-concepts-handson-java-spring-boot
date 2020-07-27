@@ -2,6 +2,7 @@ package kafka.com.niks.utils;
 
 import java.time.Duration;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -88,12 +89,13 @@ public class KafkaUtils {
   }
 
   public static void produceRecordAsynchronously(KafkaProducer<String, String> kafkaProducer,
-      ProducerRecord recordToProduce) {
+      ProducerRecord recordToProduce) throws ExecutionException, InterruptedException {
     // send data - asynchronous
     kafkaProducer.send(recordToProduce, (recordMetadata, e) -> {
       // executes every time a record is successfully sent or an exception is thrown
       if (e == null) {
         // the record was successfully sent
+        logger.info("Record published with key: "+recordToProduce.key());
         logger.info("Received new metadata. \n" +
             "Topic:" + recordMetadata.topic() + "\n" +
             "Partition: " + recordMetadata.partition() + "\n" +
@@ -102,7 +104,7 @@ public class KafkaUtils {
       } else {
         logger.error("Error while producing", e);
       }
-    });
+    }).get();// Don't do this production this is just for to verify that the message with same _id is always goes to same partition
   }
 
   public static Properties getDefaultConsumerProperties() {

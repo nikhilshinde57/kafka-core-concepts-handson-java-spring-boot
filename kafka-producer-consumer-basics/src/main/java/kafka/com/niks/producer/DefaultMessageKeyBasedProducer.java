@@ -29,7 +29,7 @@ public class DefaultMessageKeyBasedProducer {
 
         ProducerRecord<String, String> recordToProduce = KafkaUtils.getProducerRecordWithKey(TOPIC, value, key);
 
-        logger.info("Record created.");
+        logger.info(String.format("Record created with key: %s",key));
 
         KafkaUtils.produceRecordAsynchronously(kafkaProducer, recordToProduce);
 
@@ -40,6 +40,7 @@ public class DefaultMessageKeyBasedProducer {
       kafkaProducer.flush();
       // flush and close producer
       kafkaProducer.close();
+      logger.info(String.format("Exiting application."));
     } catch (Exception ex) {
       logger.error("Something went wrong while producing record messages:",ex);
     }

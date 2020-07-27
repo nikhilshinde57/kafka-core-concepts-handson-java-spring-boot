@@ -35,6 +35,7 @@ public class DefaultProducer {
       kafkaProducer.flush();
       // flush and close producer
       kafkaProducer.close();
+      logger.info(String.format("Exiting application."));
     } catch (Exception ex) {
       logger.error("Something went wrong while producing record messages:",ex);
     }

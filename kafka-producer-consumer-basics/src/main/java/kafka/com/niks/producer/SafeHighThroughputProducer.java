@@ -29,7 +29,7 @@ public class SafeHighThroughputProducer {
 
         ProducerRecord<String, String> recordToProduce = KafkaUtils.getProducerRecordWithKey(TOPIC, value, key);
 
-        logger.info("Record created.");
+        logger.info(String.format("Record created with key: %s",key));
 
         KafkaUtils.produceRecordAsynchronously(kafkaProducer, recordToProduce);
 
