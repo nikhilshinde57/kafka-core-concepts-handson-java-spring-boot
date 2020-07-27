@@ -17,7 +17,7 @@ public class GroupsReaderConsumer {
   public static void main(String[] args) {
 
     try {
-      Properties consumerProperties = KafkaUtils.getDefaultConsumerProperties();
+      Properties consumerProperties = KafkaUtils.getConsumerGroupsProperties();
 
       KafkaConsumer<String, String> kafkaConsumer = KafkaUtils.getConsumer(consumerProperties);
 

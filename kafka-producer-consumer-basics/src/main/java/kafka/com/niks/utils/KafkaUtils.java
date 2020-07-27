@@ -18,7 +18,11 @@ import org.slf4j.LoggerFactory;
 public class KafkaUtils {
 
   public static final String BOOTSTRAP_SERVER = "127.0.0.1:9092";
-  public static final String GROUP_ID = "my-first-application";
+  //Here GroupId is the one which we used as key while producing message in our Producer class
+  //If you check all DefaultMessageKeyBasedProducer, SafeProducer classes in that we are publishing
+  //Messages with keys _id1,_id2,_id3,_id4........_id10
+  //So run that program first and then run this code
+  public static final String GROUP_ID = "_id2";
   static final Logger logger = LoggerFactory.getLogger(KafkaUtils.class);
 
   public static Properties getDefaultProducerProperties() {
