@@ -1,9 +1,15 @@
 package kafka.com.niks.utils;
 
+import java.time.Duration;
 import java.util.Properties;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +17,7 @@ import org.slf4j.LoggerFactory;
 public class KafkaUtils {
 
   public static final String BOOTSTRAP_SERVER = "127.0.0.1:9092";
+  public static final String GROUP_ID = "my-first-application";
   static final Logger logger = LoggerFactory.getLogger(KafkaUtils.class);
 
   public static Properties getDefaultProducerProperties() {
@@ -96,5 +103,101 @@ public class KafkaUtils {
         logger.error("Error while producing", e);
       }
     });
+  }
+
+  public static Properties getDefaultConsumerProperties() {
+    //create and set Consumer properties
+    Properties properties = new Properties();
+    properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaUtils.BOOTSTRAP_SERVER);
+    properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+    properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+    properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+    return properties;
+  }
+
+  public static Properties getConsumerGroupsProperties() {
+    //create and set Consumer properties
+    Properties properties = getDefaultConsumerProperties();
+    properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, GROUP_ID);
+    return properties;
+  }
+
+  public static Properties geSafeConsumerProperties() {
+    //create and set Consumer properties
+    Properties properties = getConsumerGroupsProperties();
+    // disable auto commit of offsets
+    properties.setProperty(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
+    // disable auto commit of offsets
+    properties.setProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "100");
+    return properties;
+  }
+
+  public static KafkaConsumer<String, String> getConsumer(Properties properties) {
+    //Create Producer
+    return new KafkaConsumer<String, String>(properties);
+  }
+
+  public static void startConsumer(KafkaConsumer<String, String> kafkaConsumer) {
+
+    logger.info("Consumer started.");
+    // poll for new data
+    while (true) {
+
+      ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ofMillis(100)); // new in Kafka 2.0.0
+
+      for (ConsumerRecord<String, String> record : records) {
+        logger.info("Key: " + record.key() + ", Value: " + record.value());
+        logger.info("Partition: " + record.partition() + ", Offset:" + record.offset());
+      }
+    }
+  }
+
+  public static void startAssignSeekConsumer(KafkaConsumer<String, String> kafkaConsumer, int numberOfMessagesReadSoFar,
+      int numberOfMessagesToRead) {
+
+    logger.info("Consumer started.");
+    boolean keepOnReading = true;
+    // poll for new data
+    while (keepOnReading) {
+      ConsumerRecords<String, String> records =
+          kafkaConsumer.poll(Duration.ofMillis(100)); // new in Kafka 2.0.0
+
+      for (ConsumerRecord<String, String> record : records) {
+        numberOfMessagesReadSoFar += 1;
+        logger.info("Key: " + record.key() + ", Value: " + record.value());
+        logger.info("Partition: " + record.partition() + ", Offset:" + record.offset());
+        if (numberOfMessagesReadSoFar >= numberOfMessagesToRead) {
+          keepOnReading = false; // to exit the while loop
+          break; // to exit the for loop
+        }
+      }
+    }
+    logger.info("Exiting the application");
+  }
+
+  public static void startSafeConsumer(KafkaConsumer<String, String> kafkaConsumer) {
+
+    logger.info("Consumer started.");
+    // poll for new data
+    while (true) {
+
+      ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ofMillis(100)); // new in Kafka 2.0.0
+
+      for (ConsumerRecord<String, String> record : records) {
+        //Do some business logic
+        logger.info("Key: " + record.key() + ", Value: " + record.value());
+        logger.info("Partition: " + record.partition() + ", Offset:" + record.offset());
+      }
+      //After successful processing of message commit offset
+      //So that in case anything goes wrong while processing message then we can re-read the message from kafka
+      logger.info("Committing offsets...");
+      kafkaConsumer.commitSync();
+      logger.info("Offsets have been committed");
+      try {
+        Thread.sleep(1000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
   }
 }
