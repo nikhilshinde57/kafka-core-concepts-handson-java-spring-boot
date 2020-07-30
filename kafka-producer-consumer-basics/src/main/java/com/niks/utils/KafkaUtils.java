@@ -1,4 +1,4 @@
-package kafka.com.niks.utils;
+package com.niks.utils;
 
 import java.time.Duration;
 import java.util.Properties;

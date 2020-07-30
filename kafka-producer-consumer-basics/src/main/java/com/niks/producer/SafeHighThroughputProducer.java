@@ -1,13 +1,13 @@
-package kafka.com.niks.producer;
+package com.niks.producer;
 
 import java.util.Properties;
-import kafka.com.niks.utils.KafkaUtils;
+import com.niks.utils.KafkaUtils;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DefaultProducer {
+public class SafeHighThroughputProducer {
 
   //topic should be follow this naming conventions
   //<data-center>.<domain>.<classification>.<description>.<version>
@@ -17,26 +17,32 @@ public class DefaultProducer {
   public static void main(String[] args) {
 
     try {
-      Properties properties = KafkaUtils.getDefaultProducerProperties();
+      Properties properties = KafkaUtils.getSafeHighThroughputProducerProperties();
       KafkaProducer<String, String> kafkaProducer = KafkaUtils.getProducer(properties);
 
       logger.info("Producer created.");
 
-      ProducerRecord<String, String> recordToProduce = KafkaUtils.getDefaultProducerRecord(TOPIC, "Hello Kafka World!");
+      for (int recordCount = 1; recordCount < 11; recordCount++) {
 
-      logger.info("Record created.");
+        String value = "Hello Kafka World, I'm a user_" + recordCount;
+        String key = "_id" + recordCount;
 
-      KafkaUtils.produceRecordWithoutCallBack(kafkaProducer, recordToProduce);
+        ProducerRecord<String, String> recordToProduce = KafkaUtils.getProducerRecordWithKey(TOPIC, value, key);
 
-      logger.info(String.format("Record sent to the topic: %s", TOPIC));
-      logger.info(String.format("Record value: %s", recordToProduce.value()));
+        logger.info(String.format("Record created with key: %s",key));
+
+        KafkaUtils.produceRecordAsynchronously(kafkaProducer, recordToProduce);
+
+        logger.info(String.format("Record sent to the topic: %s", TOPIC));
+        logger.info(String.format("Record value: %s", recordToProduce.value()));
+      }
 
       // flush data
       kafkaProducer.flush();
       // flush and close producer
       kafkaProducer.close();
-      logger.info(String.format("Exiting application."));
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
       logger.error("Something went wrong while producing record messages:",ex);
     }
   }
