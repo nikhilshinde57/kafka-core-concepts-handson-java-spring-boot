@@ -15,6 +15,7 @@
     <module>kafka-producer-consumer-basics</module>
     <module>kafka-producer-consumer-spring-boot</module>
     <module>kafka-usecase-study-twitter-producer</module>
+    <module>kafka-usecase-study-twitter-elasticsearch-consumer</module>
   </modules>
 
 </project>
