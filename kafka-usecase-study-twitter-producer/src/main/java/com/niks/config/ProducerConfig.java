@@ -28,8 +28,25 @@ public class ProducerConfig {
     props.put(org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
         StringSerializer.class);
 
-    //Note: Here you can add the other producer configuration like safe, high throughput etc producer configurations
-    //To know all those configuration check kafak-producer-consumer-basics project
+    //Set Safe producer properties
+    //Won't produces duplicate messages on network error
+    props.put(org.apache.kafka.clients.producer.ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true");
+    //Producer will Wait for leader + replicas acks
+    props.put(org.apache.kafka.clients.producer.ProducerConfig.ACKS_CONFIG, "all");
+    props.put(org.apache.kafka.clients.producer.ProducerConfig.RETRIES_CONFIG, Integer.toString(Integer.MAX_VALUE));
+    //Prevent messages re-ordering in case of retires
+    //If kafka 2.0 >= 1.1 if yes set to 5 else  set to 1 otherwise.
+    props.put(org.apache.kafka.clients.producer.ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, "5");
+
+
+    //High throughput producer
+    //0: No compression, 1: GZIP compression, 2: Snappy compression, 3: LZ4 compression
+    props.put(org.apache.kafka.clients.producer.ProducerConfig.COMPRESSION_TYPE_CONFIG, "snappy");
+    //If incoming record rate is higher that the record sent rate
+    //Add some delay so that producer will wait for that time and then it will send
+    props.put(org.apache.kafka.clients.producer.ProducerConfig.LINGER_MS_CONFIG, "20");
+    // 32 KB batch size
+    props.put(org.apache.kafka.clients.producer.ProducerConfig.BATCH_SIZE_CONFIG, Integer.toString(32 * 1024));
 
     return props;
   }
