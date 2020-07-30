@@ -12,7 +12,8 @@
   <name>kafka-core-concepts-handson-java-spring-boot</name>
 
   <modules>
-  <module>kafka-producer-consumer-basics</module>
+    <module>kafka-producer-consumer-basics</module>
+    <module>kafka-producer-consumer-spring-boot</module>
   </modules>
 
 </project>

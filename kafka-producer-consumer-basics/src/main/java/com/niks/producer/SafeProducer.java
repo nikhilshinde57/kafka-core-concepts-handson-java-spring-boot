@@ -1,13 +1,13 @@
-package kafka.com.niks.producer;
+package com.niks.producer;
 
 import java.util.Properties;
-import kafka.com.niks.utils.KafkaUtils;
+import com.niks.utils.KafkaUtils;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SafeHighThroughputProducer {
+public class SafeProducer {
 
   //topic should be follow this naming conventions
   //<data-center>.<domain>.<classification>.<description>.<version>
@@ -16,8 +16,8 @@ public class SafeHighThroughputProducer {
 
   public static void main(String[] args) {
 
-    try {
-      Properties properties = KafkaUtils.getSafeHighThroughputProducerProperties();
+    try{
+      Properties properties = KafkaUtils.getSafeProducerProperties();
       KafkaProducer<String, String> kafkaProducer = KafkaUtils.getProducer(properties);
 
       logger.info("Producer created.");
@@ -33,8 +33,8 @@ public class SafeHighThroughputProducer {
 
         KafkaUtils.produceRecordAsynchronously(kafkaProducer, recordToProduce);
 
-        logger.info(String.format("Record sent to the topic: %s", TOPIC));
-        logger.info(String.format("Record value: %s", recordToProduce.value()));
+        logger.info(String.format("Record sent to the topic: %s",TOPIC));
+        logger.info(String.format("Record value: %s",recordToProduce.value()));
       }
 
       // flush data
@@ -42,7 +42,7 @@ public class SafeHighThroughputProducer {
       // flush and close producer
       kafkaProducer.close();
     }
-    catch (Exception ex) {
+    catch (Exception ex){
       logger.error("Something went wrong while producing record messages:",ex);
     }
   }

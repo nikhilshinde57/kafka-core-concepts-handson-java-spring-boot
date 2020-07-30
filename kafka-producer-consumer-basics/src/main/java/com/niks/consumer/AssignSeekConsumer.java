@@ -1,8 +1,8 @@
-package kafka.com.niks.consumer;
+package com.niks.consumer;
 
 import java.util.Arrays;
 import java.util.Properties;
-import kafka.com.niks.utils.KafkaUtils;
+import com.niks.utils.KafkaUtils;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.TopicPartition;
 import org.slf4j.Logger;

@@ -1,23 +1,23 @@
-package kafka.com.niks.consumer;
+package com.niks.consumer;
 
 import java.util.Arrays;
 import java.util.Properties;
-import kafka.com.niks.utils.KafkaUtils;
+import com.niks.utils.KafkaUtils;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SafeConsumer {
+public class GroupsReaderConsumer {
 
   //topic should be follow this naming conventions
   //<data-center>.<domain>.<classification>.<description>.<version>
   static final String TOPIC = "local.niks.kafka.notification.1";
-  static final Logger logger = LoggerFactory.getLogger(DefaultConsumer.class);
+  static final Logger logger = LoggerFactory.getLogger(GroupsReaderConsumer.class);
 
   public static void main(String[] args) {
 
     try {
-      Properties consumerProperties = KafkaUtils.geSafeConsumerProperties();
+      Properties consumerProperties = KafkaUtils.getConsumerGroupsProperties();
 
       KafkaConsumer<String, String> kafkaConsumer = KafkaUtils.getConsumer(consumerProperties);
 

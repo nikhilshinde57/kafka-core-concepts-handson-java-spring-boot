@@ -1,7 +1,7 @@
-package kafka.com.niks.producer;
+package com.niks.producer;
 
 import java.util.Properties;
-import kafka.com.niks.utils.KafkaUtils;
+import com.niks.utils.KafkaUtils;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
