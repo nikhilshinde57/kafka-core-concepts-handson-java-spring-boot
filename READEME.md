@@ -128,4 +128,4 @@ Note: Default prerequisites for all projects where your kafka server must be run
  
  Last but not the least, Thank you folks for reading this!! I may make mistakes, 
  feel free to point it out so that I can rectify them along the way. And if you find it helpful then don't forget to give a star.
- #####Happy coding :smile:
+ ##### Happy coding :smile:
