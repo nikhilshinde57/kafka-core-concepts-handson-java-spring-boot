@@ -114,17 +114,27 @@ Note: Default prerequisites for all projects where your kafka server must be run
 ## Kafka Helpful Commands
 
  * **Start zookeeper server** : 
- ```kafka_2.11-2.4.0/bin/zookeeper-server-start.sh config/zookeeper.properties```
- * **Start Kafka server** : ```kafka_2.11-2.4.0/bin/kafka-server-start.sh config/server.properties```
- * **Create Topic** : ```kafka_2.11-2.4.0/bin/kafka-topics.sh --zookeeper 127.0.0.1:2181 --topic <TOPIC_NAME> --create --partitions 3 --replication-factor 1```
- * **List all created topics** : ```kafka_2.11-2.4.0/bin/kafka-topics.sh --zookeeper 127.0.0.1:2181 --list```
- * **Start producer** : ```kafka_2.11-2.4.0/bin/kafka-console-producer.sh --broker-list 127.0.0.1:9092 --topic <TOPIC_NAME>```
- * **Start consumer** : ```kafka_2.11-2.4.0/bin/kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic <TOPIC_NAME>```
- * **Start consumer for specific group id** : ```kafka_2.11-2.4.0/bin/kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic <TOPIC_NAME> --group <GROUP_NAME>```
- * **List all consumer groups** : ```kafka_2.11-2.4.0/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list```
- * **Describe consumer group** : ```kafka_2.11-2.4.0/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group <GROUP_NAME>```
- * **Describe consumer group** : ```kafka_2.11-2.4.0/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group <GROUP_NAME> --rest-offsets --execute --to-earliest --topic <TOPIC_NAME>```
- * **Set minimum insync replicas** : ```kafka_2.11-2.4.0/kafka-configs  --zookeeper 127.0.0.1:2181 --entity-type topics --entity-name <TOPIC_NAME> --add-config min.insync.replicas=2 --alter```
+    * kafka_2.11-2.4.0/bin/zookeeper-server-start.sh config/zookeeper.properties
+ * **Start Kafka server**
+    * kafka_2.11-2.4.0/bin/kafka-server-start.sh config/server.properties
+ * **Create Topic**
+    * kafka_2.11-2.4.0/bin/kafka-topics.sh --zookeeper 127.0.0.1:2181 --topic <TOPIC_NAME> --create --partitions 3 --replication-factor 1
+ * **List all created topics**
+    * kafka_2.11-2.4.0/bin/kafka-topics.sh --zookeeper 127.0.0.1:2181 --list
+ * **Start producer**
+    * kafka_2.11-2.4.0/bin/kafka-console-producer.sh --broker-list 127.0.0.1:9092 --topic <TOPIC_NAME>
+ * **Start consumer**
+    * kafka_2.11-2.4.0/bin/kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic <TOPIC_NAME>
+ * **Start consumer for specific group id**
+    * kafka_2.11-2.4.0/bin/kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic <TOPIC_NAME> --group <GROUP_NAME>
+ * **List all consumer groups**
+    * kafka_2.11-2.4.0/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
+ * **Describe consumer group**
+    * kafka_2.11-2.4.0/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group <GROUP_NAME>
+ * **Describe consumer group**
+    * kafka_2.11-2.4.0/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group <GROUP_NAME> --rest-offsets --execute --to-earliest --topic <TOPIC_NAME>
+ * **Set minimum insync replicas**
+    * kafka_2.11-2.4.0/kafka-configs  --zookeeper 127.0.0.1:2181 --entity-type topics --entity-name <TOPIC_NAME> --add-config min.insync.replicas=2 --alter
  
  Last but not the least, Thank you folks for reading this!! I may make mistakes, 
  feel free to point it out so that I can rectify them along the way. And if you find it helpful then don't forget to give a star.
