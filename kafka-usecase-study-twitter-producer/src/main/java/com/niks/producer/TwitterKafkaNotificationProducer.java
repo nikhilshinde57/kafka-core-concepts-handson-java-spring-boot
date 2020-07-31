@@ -24,6 +24,8 @@ public class TwitterKafkaNotificationProducer {
   private String topic;
   @Value("${spring.kafka.bootstrap.servers}")
   private String bootstrapServers;
+  @Value("${spring.kafka.group.id.value}")
+  private String groupKeyId;
   @Autowired
   private KafkaTemplate<String, String> kafkaTemplate;
   @Autowired
@@ -33,7 +35,8 @@ public class TwitterKafkaNotificationProducer {
 
     try {
       LOGGER.info(String.format("Sending message to the topic: %s with payload %s", topic, payload));
-      ListenableFuture<SendResult<String, String>> messageSentResponse = this.kafkaTemplate.send(topic, payload);
+      ListenableFuture<SendResult<String, String>> messageSentResponse = this.kafkaTemplate
+          .send(topic, groupKeyId, payload);
 
       messageSentResponse.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
 

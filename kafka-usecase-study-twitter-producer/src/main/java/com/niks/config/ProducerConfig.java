@@ -34,7 +34,7 @@ public class ProducerConfig {
     //Producer will Wait for leader + replicas acks
     props.put(org.apache.kafka.clients.producer.ProducerConfig.ACKS_CONFIG, "all");
     props.put(org.apache.kafka.clients.producer.ProducerConfig.RETRIES_CONFIG, Integer.toString(Integer.MAX_VALUE));
-    //Prevent messages re-ordering in case of retires
+    //Prevent messages re-ordering in case of retries
     //If kafka 2.0 >= 1.1 if yes set to 5 else  set to 1 otherwise.
     props.put(org.apache.kafka.clients.producer.ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, "5");
 
