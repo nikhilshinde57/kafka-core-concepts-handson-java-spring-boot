@@ -17,9 +17,10 @@ public class SafeProducer {
   public static void main(String[] args) {
 
     try{
+      //Fetch producer properties
       Properties properties = KafkaUtils.getSafeProducerProperties();
+      //Fetch producer
       KafkaProducer<String, String> kafkaProducer = KafkaUtils.getProducer(properties);
-
       logger.info("Producer created.");
 
       for (int recordCount = 1; recordCount < 11; recordCount++) {
@@ -31,8 +32,8 @@ public class SafeProducer {
 
         logger.info(String.format("Record created with key: %s",key));
 
+        //Start producing records
         KafkaUtils.produceRecordAsynchronously(kafkaProducer, recordToProduce);
-
         logger.info(String.format("Record sent to the topic: %s",TOPIC));
         logger.info(String.format("Record value: %s",recordToProduce.value()));
       }

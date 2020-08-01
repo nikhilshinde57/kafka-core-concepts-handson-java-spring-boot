@@ -23,8 +23,6 @@ public class ConsumerConfig {
   @Value("${spring.kafka.group.id.value}")
   private String groupId;
 
-
-
   private static final String AUTO_OFFSET_RESET_CONFIG_VALUE="earliest";
 
   @Bean

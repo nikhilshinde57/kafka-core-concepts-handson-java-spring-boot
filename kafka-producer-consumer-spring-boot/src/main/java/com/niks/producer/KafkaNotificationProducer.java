@@ -22,7 +22,6 @@ public class KafkaNotificationProducer {
   @Autowired
   private KafkaTemplate<String, String> kafkaTemplate;
 
-
   public void sendMessage(String payload) {
 
     LOGGER.info(String.format("Sending message to the topic: %s with payload %s", topic,payload));

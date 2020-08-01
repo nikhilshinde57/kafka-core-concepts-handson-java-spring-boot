@@ -17,15 +17,16 @@ public class DefaultProducer {
   public static void main(String[] args) {
 
     try {
+      //Fetch producer properties
       Properties properties = KafkaUtils.getDefaultProducerProperties();
+      //Fetch producer
       KafkaProducer<String, String> kafkaProducer = KafkaUtils.getProducer(properties);
-
       logger.info("Producer created.");
 
       ProducerRecord<String, String> recordToProduce = KafkaUtils.getDefaultProducerRecord(TOPIC, "Hello Kafka World!");
-
       logger.info("Record created.");
 
+      //Start producing records
       KafkaUtils.produceRecordWithoutCallBack(kafkaProducer, recordToProduce);
 
       logger.info(String.format("Record sent to the topic: %s", TOPIC));
