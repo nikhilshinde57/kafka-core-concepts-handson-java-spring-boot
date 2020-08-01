@@ -1,4 +1,4 @@
-# Kafka Complete Core Concepts Hands-on - Java, Spring Boot, ElasticSearch, Kafka Connectors 
+# Kafka Complete Core Concepts Hands-on - Java, Spring Boot, ElasticSearch, Kafka Streams, Kafka Connectors 
 
 
 This project contains all the [Apache Kafka](http://kafka.apache.org/) core concepts and their use cases implementation.
