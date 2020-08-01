@@ -21,8 +21,10 @@ public class TwitterKafkaNotificationConsumer {
   private String topic;
   private static final Logger LOGGER = LoggerFactory.getLogger(TwitterKafkaNotificationConsumer.class);
 
-  //  @KafkaListener(topics = "${spring.kafka.topic.name}", topicPartitions = {
-//      @TopicPartition(topic = "${spring.kafka.topic.name}", partitions = {"1"})}, groupId = "group_one")
+  //Use other option while consuming messages
+  //@KafkaListener(topics = "${spring.kafka.topic.name}", topicPartitions = {
+  //@TopicPartition(topic = "${spring.kafka.topic.name}", partitions = {"1"})}, groupId = "group_id")
+
   @KafkaListener(topics = "${spring.kafka.topic.name}")
   public void consume(List<String> tweets, Acknowledgment acknowledgment,
       @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,

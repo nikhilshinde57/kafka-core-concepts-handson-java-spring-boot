@@ -21,27 +21,22 @@ public class AssignSeekConsumer {
       int numberOfMessagesToRead = 5;
       int numberOfMessagesReadSoFar = 0;
 
+      //Fetch consumer properties
       Properties consumerProperties = KafkaUtils.getDefaultConsumerProperties();
 
+      //Get kafka consumer
       KafkaConsumer<String, String> kafkaConsumer = KafkaUtils.getConsumer(consumerProperties);
-
       logger.info("Consumer created.");
 
-      // subscribe consumer to our topic(s)
-      //kafkaConsumer.subscribe(Arrays.asList(TOPIC));
-
       // assign and seek are mostly used to replay data or fetch a specific message
-
-      // assign
       TopicPartition partitionToReadFrom = new TopicPartition(TOPIC, 0);
       long offsetToReadFrom = 15L;
       kafkaConsumer.assign(Arrays.asList(partitionToReadFrom));
-
       // seek
       kafkaConsumer.seek(partitionToReadFrom, offsetToReadFrom);
-
       logger.info(String.format("Consumer subscribed to the topic created %s", TOPIC));
 
+      //Start consumer
       KafkaUtils.startAssignSeekConsumer(kafkaConsumer, numberOfMessagesReadSoFar, numberOfMessagesToRead
       );
     } catch (Exception ex) {

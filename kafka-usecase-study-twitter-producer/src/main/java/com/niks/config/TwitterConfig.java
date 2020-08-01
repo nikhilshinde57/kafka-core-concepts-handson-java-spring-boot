@@ -47,7 +47,7 @@ public class TwitterConfig {
 
       Authentication hosebirdAuth = new OAuth1(consumerKey, consumerSecret, token, secret);
       ClientBuilder builder = new ClientBuilder()
-          .name("Hosebird-Client-01")                              // optional: mainly for the logs
+          .name("Hosebird-Client-01")     // optional: mainly for the logs
           .hosts(hosebirdHosts)
           .authentication(hosebirdAuth)
           .endpoint(hosebirdEndpoint)
